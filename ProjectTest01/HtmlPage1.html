@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button onclick="lxadd('1')">加载di一行？</button>
+    <button onclick="lxadd('2')">加载di二行？</button>
+    <div id="test">
+
+    </div>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+
+
+        function lxadd(values) {
+            var v = values;
+            $('#test').append("<div id='" + v + "'>不存在的。不存在的吧？+'" + v + "'</div>");
+        }
+    </script>
+</body>
+</html>

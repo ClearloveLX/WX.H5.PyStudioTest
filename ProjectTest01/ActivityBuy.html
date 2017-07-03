@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        ul li {
+            list-style: none;
+            float: left;
+            width: 30%;
+            margin-left: 3%;
+            margin-bottom: 3%;
+        }
+
+        .allSg {
+            display: block;
+            background-color: #fff;
+            border: 1px solid #c7c7c7;
+            border-radius: 3px 3px;
+            padding: 6px 0;
+            cursor: pointer;
+        }
+
+            ul#lx li a span {
+                display: block;
+                font-family: Arial;
+                font-size: 1.1rem;
+                color: #333333;
+                text-align: center;
+                line-height: 22px;
+            }
+
+        .lxlxlx {
+            background-color: #d52047;
+            border: 1px solid #d52047;
+        }
+    </style>
+</head>
+<body>
+    <form id="PayForm">
+        <div class="chose-time">
+            <ul id="lx" class="time-list price-time">
+                <li>
+                    <a id="id_1" class="allSg" onclick="clx('id_1')">
+                        <span>108.00</span>
+                        <span>(棕色区域)</span>
+                    </a>
+                </li>
+                <li>
+                    <a id="id_2" class="allSg" onclick="clx('id_2')">
+                        <span>252.00</span>
+                        <span>(黄色区域)</span>
+                    </a>
+                </li>
+                <li>
+                    <a id="id_3" class="allSg" onclick="clx('id_3')">
+                        <span>342.00</span>
+                        <span>(绿色区域)</span>
+                    </a>
+                </li>
+                <li>
+                    <a id="id_4" class="allSg" onclick="clx('id_4')">
+                        <span>432.00</span>
+                        <span>(粉色区域)</span>
+                    </a>
+                </li>
+                <li>
+                    <a id="id_5" class="allSg" onclick="clx('id_5')">
+                        <span>612.00</span>
+                        <span>(红色区域)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        function clx(ss) {
+            $('li a#' + ss).toggleClass('lxlxlx');
+        }
+    </script>
+</body>
+</html>
