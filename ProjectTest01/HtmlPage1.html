@@ -3,21 +3,200 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <style>
+        .chose-list {
+            background-color: #ffffff;
+            position: fixed;
+            bottom: 50px;
+            width: 100%;
+            box-shadow: 0 -2px 6px #aeaeae;
+            z-index: 100;
+            max-height: 183px;
+            overflow-y: auto;
+        }
+
+        .chose-one {
+            border-top: 1px solid #dddddd;
+        }
+
+            .chose-one:after {
+                display: block;
+                content: "";
+                clear: both;
+                height: 0;
+            }
+
+        a.delete-icon {
+            display: block;
+            width: 40px;
+            height: 40px;
+            background: url(/Content/ticket-delete.png) center center no-repeat;
+            background-size: 50% 50%;
+            float: right;
+            margin: 10px 5px 0 0;
+        }
+
+        a.add-icon {
+            display: block;
+            width: 60px;
+            height: 60px;
+            background: url(/Content/ticket-add.png) center center no-repeat;
+            background-size: 50% 50%;
+            float: right;
+        }
+
+        span.chose-number {
+            display: inline-block;
+            float: right;
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            font-size: 1.2rem;
+            line-height: 60px;
+            padding: 0 5px;
+            color: #d52047;
+        }
+
+        a.reduce-no-icon {
+            display: block;
+            width: 60px;
+            height: 60px;
+            background: url(/Content/ticket-no-reduce.png) center center no-repeat;
+            background-size: 50% 50%;
+            float: right;
+        }
+
+        p.ticket-chose {
+            display: inline-block;
+            float: left;
+            font-family: "微软雅黑";
+            font-size: 1.1rem;
+            color: #333333;
+            line-height: 60px;
+            padding-left: 10px;
+        }
+
+        * {
+            margin: 0 0;
+            padding: 0 0;
+        }
+
+        .pay-settlement {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            background-color: #FFFFFF;
+            height: 50px;
+            width: 100%;
+            z-index: 100;
+        }
+
+            .pay-settlement a {
+                display: inline-block;
+                width: 40%;
+                float: right;
+                background-color: #d52148;
+                line-height: 50px;
+                color: #ffffff;
+                text-align: center;
+                font-family: "微软雅黑";
+                font-size: 1.1rem;
+            }
+
+            .pay-settlement p {
+                display: inline-block;
+                float: left;
+                width: 57%;
+                padding-left: 3%;
+                border-top: 1px solid #dddddd;
+            }
+
+        a.zk-icon {
+            display: block;
+            float: left;
+            width: 40px;
+            height: 40px;
+            background: url(/Content/ticket-stop.png) center center no-repeat;
+            background-size: 50% 50%;
+            margin: 5px 5px 0 0;
+            border-right: 1px solid #dddddd;
+        }
+
+        a.sq-icon {
+            display: block;
+            float: left;
+            width: 40px;
+            height: 40px;
+            background: url(/Content/ticket-open.png) center center no-repeat;
+            background-size: 50% 50%;
+            margin: 5px 5px 0 0;
+            border-right: 1px solid #dddddd;
+        }
+
+        .pay-settlement p span {
+            display: inline-block;
+            float: left;
+            font-family: "微软雅黑";
+            font-size: 1.2rem;
+            color: #d52047;
+            line-height: 50px;
+        }
+    </style>
 </head>
 <body>
-    <button onclick="lxadd('1')">加载di一行？</button>
-    <button onclick="lxadd('2')">加载di二行？</button>
-    <div id="test">
+    <button id="lx1" onclick="lxadd('1')" data-lx1="false">加载di一行？</button>
+    <button id="lx2" onclick="lxadd('2')" data-lx2="false">加载di二行？</button>
+    <div class="chose-list" style="display:block">
+        <div class="chose-one newChose" id="1">
+            <a class="delete-icon" onclick="closeChose(this.id)" id="1"></a>
+            <a class="add-icon" onclick="quantityPlus(this.id)" id="1"></a>
+            <span class="chose-number" id="1">1</span>
+            <a class="reduce-no-icon" onclick="quantityReduce(this.id)" id="1"></a>
+            <p class="ticket-chose">￥612.0(红色区域)</p>
+        </div>
+        <div class="chose-one newChose" id="2">
+            <a class="delete-icon" onclick="closeChose(this.id)" id="2"></a>
+            <a class="add-icon" onclick="quantityPlus(this.id)" id="2"></a>
+            <span class="chose-number" id="2">1</span>
+            <a class="reduce-no-icon" onclick="quantityReduce(this.id)" id="2"></a>
+            <p class="ticket-chose">￥612.0(红色区域)</p>
+        </div>
+    </div>
+    <div class="pay-settlement" style="display: block;">
+        <a class="pay-btn" onclick="submitSeat()">选好了</a>
+        <p id="totalPrice">
+            <a class="zk-icon" style="display:none" onclick="showChoose()"></a>
+            <a class="sq-icon" onclick="hideChoose()"></a>
+            <span id="totalInfo">￥1044.00 <b>(2份)</b></span>
+        </p>
 
     </div>
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript">
 
-
         function lxadd(values) {
             var v = values;
-            $('#test').append("<div id='" + v + "'>不存在的。不存在的吧？+'" + v + "'</div>");
+            var islx = $('#lx1').data('lx' + v);
+
+            if (islx) {
+                $('#' + v).remove($('#id') == v);
+                $('#lx1').data('lx' + v, false);
+            } else {
+                $('.chose-list').html("<div id='" + v + "'>不存在的。不存在的吧？+'" + v + "'</div>");
+                $('#lx1').data('lx' + v, true);
+            }
         }
+    </script>
+    <script type="text/javascript">
+        function hideChoose() {
+            $(".chose-list").hide();
+            $(".zk-icon").show();
+            $(".sq-icon").hide();
+        }
+
+        function showChoose() {
+            $(".chose-list").show();
+            $(".zk-icon").hide();
+            $(".sq-icon").show();
+        }
     </script>
 </body>
 </html>

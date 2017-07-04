@@ -65,6 +65,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ticket-add.png" />
+    <Content Include="Content\ticket-delete.png" />
+    <Content Include="Content\ticket-no-reduce.png" />
+    <Content Include="Content\ticket-open.png" />
+    <Content Include="Content\ticket-stop.png" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
