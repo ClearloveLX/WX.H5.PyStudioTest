@@ -45,6 +45,15 @@
             float: right;
         }
 
+        a.add-no-icon {
+            display: block;
+            width: 60px;
+            height: 60px;
+            background: url(/Content/ticket-no-add.png) center center no-repeat;
+            background-size: 50% 50%;
+            float: right;
+        }
+
         span.chose-number {
             display: inline-block;
             float: right;
@@ -53,6 +62,15 @@
             line-height: 60px;
             padding: 0 5px;
             color: #d52047;
+        }
+
+        a.reduce-icon {
+            display: block;
+            width: 60px;
+            height: 60px;
+            background: url(/Content/ticket-reduce.png) center center no-repeat;
+            background-size: 50% 50%;
+            float: right;
         }
 
         a.reduce-no-icon {
@@ -142,25 +160,11 @@
     </style>
 </head>
 <body>
-    <button id="lx1" onclick="lxadd('1')" data-lx1="false">加载di一行？</button>
-    <button id="lx2" onclick="lxadd('2')" data-lx2="false">加载di二行？</button>
-    <div class="chose-list" style="display:block">
-        <div class="chose-one newChose" id="1">
-            <a class="delete-icon" onclick="closeChose(this.id)" id="1"></a>
-            <a class="add-icon" onclick="quantityPlus(this.id)" id="1"></a>
-            <span class="chose-number" id="1">1</span>
-            <a class="reduce-no-icon" onclick="quantityReduce(this.id)" id="1"></a>
-            <p class="ticket-chose">￥612.0(红色区域)</p>
-        </div>
-        <div class="chose-one newChose" id="2">
-            <a class="delete-icon" onclick="closeChose(this.id)" id="2"></a>
-            <a class="add-icon" onclick="quantityPlus(this.id)" id="2"></a>
-            <span class="chose-number" id="2">1</span>
-            <a class="reduce-no-icon" onclick="quantityReduce(this.id)" id="2"></a>
-            <p class="ticket-chose">￥612.0(红色区域)</p>
-        </div>
+    <button id="lx1" onclick="lxadd('1','第一个区域')" data-lx="false">加载di一行？</button>
+    <button id="lx2" onclick="lxadd('2','第二个区域')" data-lx="false">加载di二行？</button>
+    <div class="chose-list" data-pycount="0" style="display:none">
     </div>
-    <div class="pay-settlement" style="display: block;">
+    <div class="pay-settlement" style="display: none;">
         <a class="pay-btn" onclick="submitSeat()">选好了</a>
         <p id="totalPrice">
             <a class="zk-icon" style="display:none" onclick="showChoose()"></a>
@@ -172,16 +176,31 @@
     <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript">
 
-        function lxadd(values) {
+        function lxadd(values, vName) {
             var v = values;
-            var islx = $('#lx1').data('lx' + v);
-
+            var islx = $('#lx' + v).data('lx');
+            var count = $('.chose-list').data('pycount');
             if (islx) {
-                $('#' + v).remove($('#id') == v);
-                $('#lx1').data('lx' + v, false);
+                $('#' + v).remove();
+                $('.chose-list').data('pycount', parseInt(count) - 1);
+                $('#lx' + v).data('lx', false);
+                var count1 = $('.chose-list').data('pycount');
+                if (parseInt(count1) <= 0) {
+                    $(".pay-settlement").hide();
+                    $(".chose-list").hide();
+                }
             } else {
-                $('.chose-list').html("<div id='" + v + "'>不存在的。不存在的吧？+'" + v + "'</div>");
-                $('#lx1').data('lx' + v, true);
+                $('.chose-list').append('<div class="chose-one newChose" id="' + v + '">'
+                    + '<a class="delete-icon" onclick= "closeChose(this.id)" id= "' + v + '" ></a>'
+                    + '<a class="add-icon" onclick="quantityPlus(this.id)" id="' + v + '"></a>'
+                    + '<span class="chose-number" id="num_' + v + '">1</span>'
+                    + '<a class="reduce-no-icon" onclick="quantityReduce(this.id)" id="' + v + '"></a>'
+                    + '<p class="ticket-chose">￥612.0(' + vName + ')</p>'
+                    + '</div >');
+                $('.chose-list').data('pycount', parseInt(count) + 1);
+                $(".pay-settlement").show();
+                $(".chose-list").show();
+                $('#lx' + v).data('lx', true);
             }
         }
     </script>
@@ -196,7 +215,24 @@
             $(".chose-list").show();
             $(".zk-icon").hide();
             $(".sq-icon").show();
-        }
+        }
+    </script>
+    <script type="text/javascript">
+        //计算区域
+        function quantityPlus(id) {
+            var num = $('#num_' + id).text();
+            $('#num_' + id).text(parseInt(num) + 1);
+            $('#' + id + '.reduce-no-icon').attr("class", "reduce-icon");
+        }
+
+        function quantityReduce(id) {
+            var num = $('#num_' + id).text();
+            if (num <= 1) {
+                $('#' + id + '.reduce-icon').attr("class", "reduce-no-icon");
+                return;
+            }
+            $('#num_' + id).text(parseInt(num) - 1);
+        }
     </script>
 </body>
 </html>
