@@ -65,6 +65,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\LX_PyStudio.js" />
+    <Content Include="Content\Style.css" />
     <Content Include="Content\ticket-add.png" />
     <Content Include="Content\ticket-delete.png" />
     <Content Include="Content\ticket-no-add.png" />
